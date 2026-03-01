@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fetch API – PWA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="./css/styles.css"/>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════════════ -->
+  <header>
+    <div class="badge">Fetch API</div>
+    <div class="header-text">
+      <h1>Conceptos Fundamentales de <span>PWA</span></h1>
+      <p>Electiva III · Progressive Web Applications · 2026-01</p>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════
+       NAV TABS
+  ══════════════════════════════════════════════════ -->
+  <nav class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="get">
+      <span class="tab-icon">⬇</span> Petición GET
+    </button>
+    <button class="tab-btn" data-tab="blob">
+      <span class="tab-icon">🖼</span> Imágenes con Blob
+    </button>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════
+       SECCIÓN 1 – PETICIÓN GET (tabla de usuarios)
+  ══════════════════════════════════════════════════ -->
+  <section id="tab-get" class="tab-panel active">
+
+    <div class="section-header">
+      <h2>Petición <span>GET</span> – Listado de Usuarios</h2>
+      <p>Consulta a <code>jsonplaceholder.typicode.com/users</code> · hasta 30 registros</p>
+    </div>
+
+    <div id="status-get" class="status-bar">
+      <span class="dot" id="dot-get"></span>
+      <span id="text-get">Realizando solicitud GET…</span>
+    </div>
+
+    <div id="error-get" class="error-msg"></div>
+
+    <div class="table-wrap" id="table-wrap" style="display:none">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Correo electrónico</th>
+            <th>Teléfono</th>
+            <th>Compañía</th>
+            <th>Website</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       SECCIÓN 2 – BLOB (imágenes)
+  ══════════════════════════════════════════════════ -->
+  <section id="tab-blob" class="tab-panel">
+
+    <div class="section-header">
+      <h2>Imágenes con <span>Blob</span></h2>
+      <p><code>fetch()</code> → <code>response.blob()</code> → <code>URL.createObjectURL()</code> · <code>Response.clone()</code></p>
+    </div>
+
+    <!-- Log visual -->
+    <div class="log-wrap">
+      <p class="log-label">Consola de actividad</p>
+      <div id="log"></div>
+    </div>
+
+    <!-- Galería: dos imágenes individuales -->
+    <div class="gallery-label">Imágenes cargadas con <code>response.blob()</code></div>
+    <div class="gallery" id="gallery">
+
+      <!-- Tarjeta 1 -->
+      <div class="img-card" id="card-red">
+        <div class="img-card-header">
+          <span class="dot" id="dot-red"></span>
+          <span>./img/red.svg</span>
+        </div>
+        <div class="img-frame">
+          <img id="img-red" src="" alt="Diagrama de red"/>
+        </div>
+        <div class="blob-info" id="info-red">
+          <span class="bi-row"><span class="bi-label">Estado:</span><span class="bi-value">Cargando…</span></span>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2 -->
+      <div class="img-card" id="card-fetch">
+        <div class="img-card-header">
+          <span class="dot" id="dot-fetch"></span>
+          <span>./img/fetch.svg</span>
+        </div>
+        <div class="img-frame">
+          <img id="img-fetch" src="" alt="Diagrama Fetch"/>
+        </div>
+        <div class="blob-info" id="info-fetch">
+          <span class="bi-row"><span class="bi-label">Estado:</span><span class="bi-value">Cargando…</span></span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Demo Response.clone() -->
+    <div class="clone-box">
+      <p class="clone-title">Demo <code>Response.clone()</code></p>
+      <p class="clone-desc">
+        La imagen <code>red.svg</code> se solicita <strong>una sola vez</strong>.
+        Antes de consumir el body se llama <code>response.clone()</code>,
+        lo que permite invocar <code>.blob()</code> dos veces sin lanzar
+        el <em>TypeError: body stream already read</em>.
+      </p>
+      <div class="clone-imgs">
+        <div class="clone-item">
+          <img id="clone-a" src="" alt="Clone A"/>
+          <span>response original</span>
+        </div>
+        <div class="clone-sep">→ clone() →</div>
+        <div class="clone-item">
+          <img id="clone-b" src="" alt="Clone B"/>
+          <span>responseClonada</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════ -->
+  <footer>
+    <span>Electiva III – Progressive Web Applications · 2026‑01</span>
+    <span>Escuela de Ingeniería de Sistemas · UPTC</span>
+  </footer>
+
+  <script src="./js/fetchAPI.js"></script>
+</body>
+</html>

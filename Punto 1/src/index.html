@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fetch API – Usuarios</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="./css/styles.css"/>
+</head>
+<body>
+
+  <header>
+    <div class="header-text">
+      <h1>Directorio de <span>Usuarios</span></h1>
+      <p>GET https://jsonplaceholder.typicode.com/users</p>
+    </div>
+  </header>
+
+  <div id="status">
+    <span class="dot" id="dot"></span>
+    <span id="status-text">Realizando solicitud GET…</span>
+  </div>
+
+  <div id="error-msg"></div>
+
+  <div class="table-wrap" id="table-wrap" style="display:none">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Correo electrónico</th>
+          <th>Teléfono</th>
+          <th>Compañía</th>
+          <th>Website</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <footer>
+    <span>Electiva III – Progressive Web Applications · 2026‑01</span>
+  </footer>
+
+  <script src="./js/fetchAPI.js"></script>
+</body>
+</html>
