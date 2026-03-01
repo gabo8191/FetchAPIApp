@@ -9,26 +9,18 @@
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════════════════
-       HEADER
-  ══════════════════════════════════════════════════ -->
   <header>
-    <div class="badge">Fetch API</div>
     <div class="header-text">
-      <h1>Conceptos Fundamentales de <span>PWA</span></h1>
-      <p>Electiva III · Progressive Web Applications · 2026-01</p>
+      <h1>Conceptos Fundamentales FETCH <span>PWA</span></h1>
     </div>
   </header>
 
-  <!-- ══════════════════════════════════════════════════
-       NAV TABS
-  ══════════════════════════════════════════════════ -->
   <nav class="tabs" id="tabs">
     <button class="tab-btn active" data-tab="get">
-      <span class="tab-icon">⬇</span> Petición GET
+      <span class="tab-icon"></span> Petición GET
     </button>
     <button class="tab-btn" data-tab="blob">
-      <span class="tab-icon">🖼</span> Imágenes con Blob
+      <span class="tab-icon"></span> Imágenes con Blob
     </button>
   </nav>
 
@@ -39,7 +31,6 @@
 
     <div class="section-header">
       <h2>Petición <span>GET</span> – Listado de Usuarios</h2>
-      <p>Consulta a <code>jsonplaceholder.typicode.com/users</code> · hasta 30 registros</p>
     </div>
 
     <div id="status-get" class="status-bar">
@@ -68,30 +59,21 @@
   </section>
 
   <!-- ══════════════════════════════════════════════════
-       SECCIÓN 2 – BLOB (imágenes)
+       SECCIÓN 2 –  (imágenes)
   ══════════════════════════════════════════════════ -->
   <section id="tab-blob" class="tab-panel">
 
     <div class="section-header">
       <h2>Imágenes con <span>Blob</span></h2>
-      <p><code>fetch()</code> → <code>response.blob()</code> → <code>URL.createObjectURL()</code> · <code>Response.clone()</code></p>
-    </div>
-
-    <!-- Log visual -->
-    <div class="log-wrap">
-      <p class="log-label">Consola de actividad</p>
-      <div id="log"></div>
     </div>
 
     <!-- Galería: dos imágenes individuales -->
     <div class="gallery-label">Imágenes cargadas con <code>response.blob()</code></div>
     <div class="gallery" id="gallery">
 
-      <!-- Tarjeta 1 -->
       <div class="img-card" id="card-red">
         <div class="img-card-header">
           <span class="dot" id="dot-red"></span>
-          <span>./img/red.svg</span>
         </div>
         <div class="img-frame">
           <img id="img-red" src="" alt="Diagrama de red"/>
@@ -101,11 +83,9 @@
         </div>
       </div>
 
-      <!-- Tarjeta 2 -->
       <div class="img-card" id="card-fetch">
         <div class="img-card-header">
           <span class="dot" id="dot-fetch"></span>
-          <span>./img/fetch.svg</span>
         </div>
         <div class="img-frame">
           <img id="img-fetch" src="" alt="Diagrama Fetch"/>
@@ -120,12 +100,6 @@
     <!-- Demo Response.clone() -->
     <div class="clone-box">
       <p class="clone-title">Demo <code>Response.clone()</code></p>
-      <p class="clone-desc">
-        La imagen <code>red.svg</code> se solicita <strong>una sola vez</strong>.
-        Antes de consumir el body se llama <code>response.clone()</code>,
-        lo que permite invocar <code>.blob()</code> dos veces sin lanzar
-        el <em>TypeError: body stream already read</em>.
-      </p>
       <div class="clone-imgs">
         <div class="clone-item">
           <img id="clone-a" src="" alt="Clone A"/>
@@ -141,12 +115,8 @@
 
   </section>
 
-  <!-- ══════════════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════════════ -->
   <footer>
     <span>Electiva III – Progressive Web Applications · 2026‑01</span>
-    <span>Escuela de Ingeniería de Sistemas · UPTC</span>
   </footer>
 
   <script src="./js/fetchAPI.js"></script>

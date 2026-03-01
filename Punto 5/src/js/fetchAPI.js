@@ -1,21 +1,9 @@
-// ─────────────────────────────────────────────────────────────
-//  Fetch API – Proyecto unificado
-//  Electiva III · Progressive Web Applications · 2026-01
-//
-//  Funcionalidad 1: Petición GET → tabla de usuarios
-//  Funcionalidad 2: Blob → cargar imágenes + Response.clone()
-// ─────────────────────────────────────────────────────────────
-
-
-// ════════════════════════════════════════════════════════════
-//  NAVEGACIÓN POR TABS
-// ════════════════════════════════════════════════════════════
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    // Desactivar todo
+
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    // Activar el seleccionado
+
     btn.classList.add('active');
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
   });
@@ -23,11 +11,11 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
 
 // ════════════════════════════════════════════════════════════
-//  FUNCIONALIDAD 1 – PETICIÓN GET (tabla de usuarios)
+//  FUNCIONALIDAD 1 – PETICIÓN GET
 // ════════════════════════════════════════════════════════════
 
 const ENDPOINT  = 'https://jsonplaceholder.typicode.com/users';
-const MAX_USERS = 30;  // la API devuelve 10; mostramos hasta 30
+const MAX_USERS = 30; 
 
 const dotGet    = document.getElementById('dot-get');
 const textGet   = document.getElementById('text-get');
@@ -40,12 +28,12 @@ fetch(ENDPOINT)
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    return response.json();            // promesa #2: parsear JSON
+    return response.json();           
   })
   .then(usuarios => {
     const lista = usuarios.slice(0, MAX_USERS);
 
-    // Actualizar barra de estado
+
     dotGet.classList.add('done');
     const nota = usuarios.length < MAX_USERS
       ? ` (la API devuelve ${usuarios.length} en total)`
@@ -55,7 +43,6 @@ fetch(ENDPOINT)
 
     console.log('GET usuarios:', lista);
 
-    // Construir filas con delay escalonado para la animación
     lista.forEach((u, i) => {
       const tr = document.createElement('tr');
       tr.style.animationDelay = `${i * 40}ms`;
@@ -87,15 +74,7 @@ fetch(ENDPOINT)
 //  FUNCIONALIDAD 2 – BLOB (imágenes)
 // ════════════════════════════════════════════════════════════
 
-// ── Utilidad: log visual en pantalla ────────────────────────
 function logMsg(texto, tipo = 'info') {
-  const logEl = document.getElementById('log');
-  const div   = document.createElement('div');
-  div.className   = `ll ${tipo}`;
-  div.textContent = texto;
-  logEl.appendChild(div);
-  logEl.scrollTop = logEl.scrollHeight;
-  // Espejo en la consola real del navegador (F12)
   tipo === 'err' ? console.error(texto) : console.log(texto);
 }
 
@@ -104,10 +83,9 @@ function fmtBytes(b) {
   return b < 1024 ? `${b} bytes` : `${(b / 1024).toFixed(2)} KB`;
 }
 
-// ── Imágenes a cargar ────────────────────────────────────────
 const IMAGENES = [
-  { ruta: './img/red.svg',   cardId: 'card-red',   imgId: 'img-red',   dotId: 'dot-red',   infoId: 'info-red'   },
-  { ruta: './img/fetch.svg', cardId: 'card-fetch', imgId: 'img-fetch', dotId: 'dot-fetch', infoId: 'info-fetch' },
+  { ruta: './img/fine.png',   cardId: 'card-red',   imgId: 'img-red',   dotId: 'dot-red',   infoId: 'info-red'   },
+  { ruta: './img/homero.png', cardId: 'card-fetch', imgId: 'img-fetch', dotId: 'dot-fetch', infoId: 'info-fetch' },
 ];
 
 // ── Cargar una imagen con Blob ───────────────────────────────
@@ -125,12 +103,12 @@ function cargarBlob(imagen) {
         throw new Error(`HTTP ${response.status} · ${imagen.ruta}`);
       }
       logMsg(`[RESPONSE] ${imagen.ruta} → ${response.status} OK`, 'ok');
-      return response.blob();            // convertir a Blob
+      return response.blob();           
     })
     .then(blob => {
-      const objectURL = URL.createObjectURL(blob);  // URL temporal en memoria
+      const objectURL = URL.createObjectURL(blob);  
 
-      img.src = objectURL;               // asignar al <img>
+      img.src = objectURL;             
       dot.classList.add('done');
       card.classList.add('loaded');
 
@@ -158,9 +136,8 @@ function demoClone() {
   const imgA = document.getElementById('clone-a');
   const imgB = document.getElementById('clone-b');
 
-  fetch(new Request('./img/red.svg'))
+  fetch(new Request('./img/fine.png'))
     .then(response => {
-      // Clonamos ANTES de consumir el body
       const responseClonada = response.clone();
       logMsg('[CLONE] response.clone() ejecutado', 'ok');
 
@@ -181,7 +158,6 @@ function demoClone() {
     .catch(error => logMsg(`[CLONE ERROR] ${error.message}`, 'err'));
 }
 
-// ── Arrancar la funcionalidad Blob ───────────────────────────
 logMsg('Fetch API + Blob · iniciando…');
 IMAGENES.forEach(img => cargarBlob(img));
-setTimeout(demoClone, 600);   // pequeño delay para que los logs queden ordenados
+setTimeout(demoClone, 600);  

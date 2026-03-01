@@ -1,8 +1,3 @@
-/* ─────────────────────────────────────────────────────────────
-   Fetch API – Estilos unificados
-   Electiva III · Progressive Web Applications · 2026-01
-───────────────────────────────────────────────────────────── */
-
 :root {
   --bg:        #0b0e17;
   --surface:   #111624;
@@ -28,9 +23,7 @@ body {
   padding: 2rem 1.5rem 4rem;
 }
 
-/* ════════════════════════════════
-   HEADER
-════════════════════════════════ */
+
 header {
   max-width: var(--max);
   margin: 0 auto 2rem;
@@ -72,9 +65,6 @@ header {
   font-family: 'Space Mono', monospace;
 }
 
-/* ════════════════════════════════
-   TABS
-════════════════════════════════ */
 .tabs {
   max-width: var(--max);
   margin: 0 auto 2rem;
@@ -104,15 +94,11 @@ header {
 .tab-btn.active          { color: var(--accent); border-bottom-color: var(--accent); }
 .tab-icon                { font-size: .9rem; }
 
-/* ════════════════════════════════
-   TAB PANELS
-════════════════════════════════ */
+
 .tab-panel          { display: none; max-width: var(--max); margin: 0 auto; }
 .tab-panel.active   { display: block; }
 
-/* ════════════════════════════════
-   SECTION HEADER
-════════════════════════════════ */
+
 .section-header {
   margin-bottom: 1.4rem;
 }
@@ -142,9 +128,7 @@ header {
   color: var(--accent2);
 }
 
-/* ════════════════════════════════
-   STATUS BAR
-════════════════════════════════ */
+
 .status-bar {
   display: flex;
   align-items: center;
@@ -172,9 +156,7 @@ header {
 .dot.done  { background: var(--green); animation: none; }
 .dot.error { background: var(--red);   animation: none; }
 
-/* ════════════════════════════════
-   ERROR MESSAGE
-════════════════════════════════ */
+
 .error-msg {
   padding: 1rem 1.4rem;
   background: #1e1217;
@@ -187,9 +169,6 @@ header {
   margin-bottom: 1rem;
 }
 
-/* ════════════════════════════════
-   TABLA GET
-════════════════════════════════ */
 .table-wrap {
   overflow-x: auto;
   border: 1px solid var(--border);
@@ -272,43 +251,7 @@ tbody td:first-child {
 }
 .website-cell a:hover { opacity: 1; text-decoration: underline; }
 
-/* ════════════════════════════════
-   LOG VISUAL (Blob)
-════════════════════════════════ */
-.log-wrap { margin-bottom: 1.8rem; }
 
-.log-label {
-  font-family: 'Space Mono', monospace;
-  font-size: .68rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: .5rem;
-}
-
-#log {
-  background: #07090f;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: .9rem 1.1rem;
-  font-family: 'Space Mono', monospace;
-  font-size: .73rem;
-  line-height: 1.9;
-  min-height: 5rem;
-  max-height: 14rem;
-  overflow-y: auto;
-}
-
-.ll           { color: var(--muted); }
-.ll::before   { content: '> '; opacity: .45; }
-.ll.info      { color: var(--accent2); }
-.ll.ok        { color: var(--green); }
-.ll.warn      { color: var(--accent); }
-.ll.err       { color: var(--red); }
-
-/* ════════════════════════════════
-   GALERÍA BLOB
-════════════════════════════════ */
 .gallery-label {
   font-family: 'Space Mono', monospace;
   font-size: .68rem;
@@ -387,9 +330,7 @@ tbody td:first-child {
 .bi-label { color: var(--accent); min-width: 68px; }
 .bi-value { color: var(--text); word-break: break-all; }
 
-/* ════════════════════════════════
-   CLONE BOX
-════════════════════════════════ */
+
 .clone-box {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -465,9 +406,6 @@ tbody td:first-child {
   padding-bottom: 1.4rem;
 }
 
-/* ════════════════════════════════
-   FOOTER
-════════════════════════════════ */
 footer {
   max-width: var(--max);
   margin: 2.5rem auto 0;
