@@ -51,6 +51,7 @@
               <th>Teléfono</th>
               <th>Compañía</th>
               <th>Website</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody id="tbody"></tbody>
@@ -122,6 +123,31 @@
             <input type="text" id="detail-zipcode" data-key="address.zipcode" />
           </div>
         </form>
+        
+        <!-- Botones de acción -->
+        <div class="detail-actions">
+          <button type="button" id="btn-save-user" class="btn btn-primary">
+            <span class="btn-icon">💾</span>
+            Guardar cambios
+          </button>
+          <button type="button" id="btn-cancel-edit" class="btn btn-secondary">
+            Cancelar
+          </button>
+        </div>
+        
+        <!-- Status del PATCH -->
+        <div id="patch-status" class="status-bar" style="display: none; margin-top: 1rem;">
+          <span class="dot" id="dot-patch"></span>
+          <span id="text-patch">Guardando cambios...</span>
+        </div>
+        <div id="error-patch" class="error-msg" style="margin-top: 1rem;"></div>
+
+        <!-- Status del DELETE -->
+        <div id="delete-status" class="status-bar" style="display: none; margin-top: 1rem;">
+          <span class="dot" id="dot-delete"></span>
+          <span id="text-delete">Eliminando usuario...</span>
+        </div>
+        <div id="error-delete" class="error-msg" style="margin-top: 1rem;"></div>
       </div>
     </section>
 
