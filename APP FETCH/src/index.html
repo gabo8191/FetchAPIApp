@@ -1,124 +1,195 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fetch API – PWA</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="./css/styles.css"/>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch API – PWA</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-text">
+        <h1>Conceptos Fundamentales FETCH <span>PWA</span></h1>
+      </div>
+    </header>
 
-  <header>
-    <div class="header-text">
-      <h1>Conceptos Fundamentales FETCH <span>PWA</span></h1>
-    </div>
-  </header>
+    <nav class="tabs" id="tabs">
+      <button class="tab-btn active" data-tab="get">
+        <span class="tab-icon"></span> Petición GET
+      </button>
+      <button class="tab-btn" data-tab="blob">
+        <span class="tab-icon"></span> Imágenes con Blob
+      </button>
+    </nav>
 
-  <nav class="tabs" id="tabs">
-    <button class="tab-btn active" data-tab="get">
-      <span class="tab-icon"></span> Petición GET
-    </button>
-    <button class="tab-btn" data-tab="blob">
-      <span class="tab-icon"></span> Imágenes con Blob
-    </button>
-  </nav>
-
-  <!-- ══════════════════════════════════════════════════
+    <!-- ══════════════════════════════════════════════════
        SECCIÓN 1 – PETICIÓN GET (tabla de usuarios)
   ══════════════════════════════════════════════════ -->
-  <section id="tab-get" class="tab-panel active">
+    <section id="tab-get" class="tab-panel active">
+      <div class="section-header">
+        <h2>Petición <span>GET</span> – Listado de Usuarios</h2>
+      </div>
 
-    <div class="section-header">
-      <h2>Petición <span>GET</span> – Listado de Usuarios</h2>
-    </div>
+      <div id="status-get" class="status-bar">
+        <span class="dot" id="dot-get"></span>
+        <span id="text-get">Realizando solicitud GET…</span>
+      </div>
 
-    <div id="status-get" class="status-bar">
-      <span class="dot" id="dot-get"></span>
-      <span id="text-get">Realizando solicitud GET…</span>
-    </div>
+      <div id="error-get" class="error-msg"></div>
 
-    <div id="error-get" class="error-msg"></div>
+      <div class="table-wrap" id="table-wrap" style="display: none">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Correo electrónico</th>
+              <th>Teléfono</th>
+              <th>Compañía</th>
+              <th>Website</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
 
-    <div class="table-wrap" id="table-wrap" style="display:none">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Correo electrónico</th>
-            <th>Teléfono</th>
-            <th>Compañía</th>
-            <th>Website</th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-      </table>
-    </div>
+      <!-- ── Detalle del usuario seleccionado ── -->
+      <div id="user-detail" class="user-detail" style="display: none">
+        <div class="detail-header">
+          <h3>Detalle del Usuario: <span id="detail-title"></span></h3>
+        </div>
+        <form id="detail-form" class="detail-grid" autocomplete="off">
+          <!-- Fila 1 -->
+          <div class="detail-field">
+            <label for="detail-name">Nombre</label>
+            <input type="text" id="detail-name" data-key="name" />
+          </div>
+          <div class="detail-field">
+            <label for="detail-username">Username</label>
+            <input type="text" id="detail-username" data-key="username" />
+          </div>
+          <!-- Fila 2 -->
+          <div class="detail-field">
+            <label for="detail-email">Correo electrónico</label>
+            <input type="email" id="detail-email" data-key="email" />
+          </div>
+          <div class="detail-field">
+            <label for="detail-phone">Teléfono</label>
+            <input type="text" id="detail-phone" data-key="phone" />
+          </div>
+          <!-- Fila 3 -->
+          <div class="detail-field">
+            <label for="detail-website">Website</label>
+            <input type="text" id="detail-website" data-key="website" />
+          </div>
+          <div class="detail-field">
+            <label for="detail-company">Compañía</label>
+            <input type="text" id="detail-company" data-key="company.name" />
+          </div>
+          <!-- Fila 4 -->
+          <div class="detail-field">
+            <label for="detail-catchphrase">Frase de la compañía</label>
+            <input
+              type="text"
+              id="detail-catchphrase"
+              data-key="company.catchPhrase"
+            />
+          </div>
+          <div class="detail-field">
+            <label for="detail-bs">BS de la compañía</label>
+            <input type="text" id="detail-bs" data-key="company.bs" />
+          </div>
+          <!-- Fila 5 -->
+          <div class="detail-field">
+            <label for="detail-street">Calle</label>
+            <input type="text" id="detail-street" data-key="address.street" />
+          </div>
+          <div class="detail-field">
+            <label for="detail-suite">Suite</label>
+            <input type="text" id="detail-suite" data-key="address.suite" />
+          </div>
+          <!-- Fila 6 -->
+          <div class="detail-field">
+            <label for="detail-city">Ciudad</label>
+            <input type="text" id="detail-city" data-key="address.city" />
+          </div>
+          <div class="detail-field">
+            <label for="detail-zipcode">Código postal</label>
+            <input type="text" id="detail-zipcode" data-key="address.zipcode" />
+          </div>
+        </form>
+      </div>
+    </section>
 
-  </section>
-
-  <!-- ══════════════════════════════════════════════════
+    <!-- ══════════════════════════════════════════════════
        SECCIÓN 2 –  (imágenes)
   ══════════════════════════════════════════════════ -->
-  <section id="tab-blob" class="tab-panel">
+    <section id="tab-blob" class="tab-panel">
+      <div class="section-header">
+        <h2>Imágenes con <span>Blob</span></h2>
+      </div>
 
-    <div class="section-header">
-      <h2>Imágenes con <span>Blob</span></h2>
-    </div>
-
-    <!-- Galería: dos imágenes individuales -->
-    <div class="gallery-label">Imágenes cargadas con <code>response.blob()</code></div>
-    <div class="gallery" id="gallery">
-
-      <div class="img-card" id="card-red">
-        <div class="img-card-header">
-          <span class="dot" id="dot-red"></span>
+      <!-- Galería: dos imágenes individuales -->
+      <div class="gallery-label">
+        Imágenes cargadas con <code>response.blob()</code>
+      </div>
+      <div class="gallery" id="gallery">
+        <div class="img-card" id="card-red">
+          <div class="img-card-header">
+            <span class="dot" id="dot-red"></span>
+          </div>
+          <div class="img-frame">
+            <img id="img-red" src="" alt="Diagrama de red" />
+          </div>
+          <div class="blob-info" id="info-red">
+            <span class="bi-row"
+              ><span class="bi-label">Estado:</span
+              ><span class="bi-value">Cargando…</span></span
+            >
+          </div>
         </div>
-        <div class="img-frame">
-          <img id="img-red" src="" alt="Diagrama de red"/>
-        </div>
-        <div class="blob-info" id="info-red">
-          <span class="bi-row"><span class="bi-label">Estado:</span><span class="bi-value">Cargando…</span></span>
+
+        <div class="img-card" id="card-fetch">
+          <div class="img-card-header">
+            <span class="dot" id="dot-fetch"></span>
+          </div>
+          <div class="img-frame">
+            <img id="img-fetch" src="" alt="Diagrama Fetch" />
+          </div>
+          <div class="blob-info" id="info-fetch">
+            <span class="bi-row"
+              ><span class="bi-label">Estado:</span
+              ><span class="bi-value">Cargando…</span></span
+            >
+          </div>
         </div>
       </div>
 
-      <div class="img-card" id="card-fetch">
-        <div class="img-card-header">
-          <span class="dot" id="dot-fetch"></span>
-        </div>
-        <div class="img-frame">
-          <img id="img-fetch" src="" alt="Diagrama Fetch"/>
-        </div>
-        <div class="blob-info" id="info-fetch">
-          <span class="bi-row"><span class="bi-label">Estado:</span><span class="bi-value">Cargando…</span></span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Demo Response.clone() -->
-    <div class="clone-box">
-      <p class="clone-title">Demo <code>Response.clone()</code></p>
-      <div class="clone-imgs">
-        <div class="clone-item">
-          <img id="clone-a" src="" alt="Clone A"/>
-          <span>response original</span>
-        </div>
-        <div class="clone-sep">→ clone() →</div>
-        <div class="clone-item">
-          <img id="clone-b" src="" alt="Clone B"/>
-          <span>responseClonada</span>
+      <!-- Demo Response.clone() -->
+      <div class="clone-box">
+        <p class="clone-title">Demo <code>Response.clone()</code></p>
+        <div class="clone-imgs">
+          <div class="clone-item">
+            <img id="clone-a" src="" alt="Clone A" />
+            <span>response original</span>
+          </div>
+          <div class="clone-sep">→ clone() →</div>
+          <div class="clone-item">
+            <img id="clone-b" src="" alt="Clone B" />
+            <span>responseClonada</span>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-  </section>
+    <footer>
+      <span>Electiva III – Progressive Web Applications · 2026‑01</span>
+    </footer>
 
-  <footer>
-    <span>Electiva III – Progressive Web Applications · 2026‑01</span>
-  </footer>
-
-  <script src="./js/fetchAPI.js"></script>
-</body>
+    <script src="./js/fetchAPI.js"></script>
+  </body>
 </html>
