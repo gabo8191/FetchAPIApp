@@ -148,7 +148,7 @@ function demoClone() {
         logMsg('[CLONE] Imagen A ← response original', 'ok');
       });
 
-      // Imagen B ← clon (sin error porque el body no fue consumido aún)
+      // Imagen B
       responseClonada.blob().then(blob => {
         imgB.src = URL.createObjectURL(blob);
         imgB.classList.add('loaded');
