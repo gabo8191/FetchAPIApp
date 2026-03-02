@@ -229,22 +229,35 @@ function demoClone() {
 
   fetch(new Request('./img/fine.png'))
     .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} · clone demo`);
+      }
       const responseClonada = response.clone();
       logMsg('[CLONE] response.clone() ejecutado', 'ok');
 
       // Imagen A ← respuesta original
-      response.blob().then((blob) => {
-        imgA.src = URL.createObjectURL(blob);
-        imgA.classList.add('loaded');
-        logMsg('[CLONE] Imagen A ← response original', 'ok');
-      });
+      response
+        .blob()
+        .then((blob) => {
+          imgA.src = URL.createObjectURL(blob);
+          imgA.classList.add('loaded');
+          logMsg('[CLONE] Imagen A ← response original', 'ok');
+        })
+        .catch((error) =>
+          logMsg(`[CLONE ERROR] Imagen A: ${error.message}`, 'err'),
+        );
 
       // Imagen B
-      responseClonada.blob().then((blob) => {
-        imgB.src = URL.createObjectURL(blob);
-        imgB.classList.add('loaded');
-        logMsg('[CLONE] Imagen B ← responseClonada', 'ok');
-      });
+      responseClonada
+        .blob()
+        .then((blob) => {
+          imgB.src = URL.createObjectURL(blob);
+          imgB.classList.add('loaded');
+          logMsg('[CLONE] Imagen B ← responseClonada', 'ok');
+        })
+        .catch((error) =>
+          logMsg(`[CLONE ERROR] Imagen B: ${error.message}`, 'err'),
+        );
     })
     .catch((error) => logMsg(`[CLONE ERROR] ${error.message}`, 'err'));
 }
@@ -268,11 +281,11 @@ const errorPatch = document.getElementById('error-patch');
 function recopilarDatosFormulario() {
   const inputs = document.querySelectorAll('#detail-form input[data-key]');
   const datos = {};
-  
-  inputs.forEach(input => {
+
+  inputs.forEach((input) => {
     const key = input.getAttribute('data-key');
     const value = input.value.trim();
-    
+
     // Construir objeto anidado
     if (key.includes('.')) {
       const [parent, child] = key.split('.');
@@ -282,41 +295,46 @@ function recopilarDatosFormulario() {
       datos[key] = value;
     }
   });
-  
+
   // Agregar ID del usuario
   datos.id = usuarioActualEnEdicion.id;
-  
+
   return datos;
 }
 
 // ── Validar datos del formulario ──
 function validarDatos(datos) {
   const errores = [];
-  
+
   if (!datos.name || datos.name.length < 2) {
     errores.push('El nombre debe tener al menos 2 caracteres');
   }
-  
+
   if (!datos.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(datos.email)) {
     errores.push('El email debe tener un formato válido');
   }
-  
+
   if (!datos.username || datos.username.length < 2) {
     errores.push('El username debe tener al menos 2 caracteres');
   }
-  
+
   return errores;
 }
 
 // ── Actualizar tabla con nuevos datos ──
 function actualizarTabla(datosActualizados) {
   // Encontrar el índice del usuario en la lista
-  const usuarioIndex = usuariosCargados.findIndex(u => u.id === datosActualizados.id);
-  
+  const usuarioIndex = usuariosCargados.findIndex(
+    (u) => u.id === datosActualizados.id,
+  );
+
   if (usuarioIndex !== -1) {
     // Actualizar los datos en la lista
-    usuariosCargados[usuarioIndex] = { ...usuariosCargados[usuarioIndex], ...datosActualizados };
-    
+    usuariosCargados[usuarioIndex] = {
+      ...usuariosCargados[usuarioIndex],
+      ...datosActualizados,
+    };
+
     // Actualizar la fila en la tabla
     const filaTabla = tbody.children[usuarioIndex];
     if (filaTabla) {
@@ -325,13 +343,13 @@ function actualizarTabla(datosActualizados) {
       filaTabla.children[3].textContent = datosActualizados.phone;
       filaTabla.children[4].textContent = datosActualizados.company.name;
       filaTabla.children[5].innerHTML = `<a href="https://${datosActualizados.website}" target="_blank" rel="noopener">${datosActualizados.website}</a>`;
-      
+
       // Re-agregar event listener
       filaTabla.querySelector('.name-cell a').addEventListener('click', (e) => {
         e.preventDefault();
         mostrarDetalle(usuariosCargados[usuarioIndex]);
       });
-      
+
       // Efecto visual de actualización
       filaTabla.style.background = 'var(--green)';
       filaTabla.style.color = 'white';
@@ -348,48 +366,48 @@ async function guardarCambios() {
   try {
     // Recopilar datos del formulario
     const datosActualizados = recopilarDatosFormulario();
-    
+
     console.log('────────────────────────────────────────');
     console.log('PATCH - Datos a enviar:', datosActualizados);
-    
+
     // Validar datos
     const errores = validarDatos(datosActualizados);
     if (errores.length > 0) {
       throw new Error(errores.join(', '));
     }
-    
+
     // Mostrar estado de carga
     patchStatus.style.display = 'block';
     errorPatch.style.display = 'none';
     textPatch.textContent = 'Enviando cambios al servidor...';
     dotPatch.className = 'dot loading';
     btnSaveUser.disabled = true;
-    
+
     // Realizar petición PATCH
     const response = await fetch(`${ENDPOINT}/${usuarioActualEnEdicion.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(datosActualizados)
+      body: JSON.stringify(datosActualizados),
     });
-    
+
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    
+
     const resultado = await response.json();
-    
+
     // Mostrar éxito
     dotPatch.className = 'dot done';
     textPatch.textContent = `Usuario actualizado correctamente · ${response.status} OK`;
-    
+
     console.log('PATCH exitoso - Respuesta del servidor:', resultado);
     console.log('Estado HTTP:', response.status);
-    
+
     // Actualizar la tabla con los nuevos datos
     actualizarTabla(datosActualizados);
-    
+
     // Log detallado de los cambios
     console.log('────────────────────────────────────────');
     console.log('CAMBIOS REALIZADOS:');
@@ -403,20 +421,19 @@ async function guardarCambios() {
       'Compañía original': datosOriginales.company.name,
       'Compañía nueva': datosActualizados.company.name,
       'Website original': datosOriginales.website,
-      'Website nuevo': datosActualizados.website
+      'Website nuevo': datosActualizados.website,
     });
-    
+
     // Ocultar status después de 3 segundos
     setTimeout(() => {
       patchStatus.style.display = 'none';
     }, 3000);
-    
   } catch (error) {
     dotPatch.className = 'dot error';
     textPatch.textContent = 'Error al guardar cambios';
     errorPatch.style.display = 'block';
     errorPatch.textContent = `⚠ ${error.message}`;
-    
+
     console.error('PATCH error:', error);
   } finally {
     btnSaveUser.disabled = false;
@@ -450,10 +467,14 @@ async function eliminarUsuario(userId, userIndex) {
   console.log('────────────────────────────────────────');
   console.log('ID del usuario a eliminar:', userId);
   console.log('Índice en la tabla:', userIndex);
-  
+
   // Mostrar confirmación
   const usuario = usuariosCargados[userIndex];
-  if (!confirm(`¿Estás seguro de que quieres eliminar al usuario "${usuario.name}"?`)) {
+  if (
+    !confirm(
+      `¿Estás seguro de que quieres eliminar al usuario "${usuario.name}"?`,
+    )
+  ) {
     console.log('Eliminación cancelada por el usuario');
     return;
   }
@@ -465,30 +486,33 @@ async function eliminarUsuario(userId, userIndex) {
   textDelete.textContent = 'Eliminando usuario...';
 
   try {
-    console.log('Enviando petición DELETE al endpoint:', `${ENDPOINT}/${userId}`);
-    
+    console.log(
+      'Enviando petición DELETE al endpoint:',
+      `${ENDPOINT}/${userId}`,
+    );
+
     const response = await fetch(`${ENDPOINT}/${userId}`, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
 
     console.log('Respuesta recibida:', {
       status: response.status,
       statusText: response.statusText,
       ok: response.ok,
-      url: response.url
+      url: response.url,
     });
 
     if (response.ok) {
       // Eliminación exitosa
       dotDelete.classList.add('success');
       textDelete.textContent = 'Usuario eliminado correctamente';
-      
+
       console.log('✅ Usuario eliminado exitosamente');
       console.log('Usuario eliminado:', usuario);
-      
+
       // Remover de la tabla visualmente
       const filaTabla = tbody.children[userIndex];
       if (filaTabla) {
@@ -498,10 +522,10 @@ async function eliminarUsuario(userId, userIndex) {
           actualizarNumerosTabla();
         }, 300);
       }
-      
+
       // Remover del array de usuarios cargados
       usuariosCargados.splice(userIndex, 1);
-      
+
       // Cerrar detalle si el usuario eliminado estaba siendo editado
       if (usuarioActualEnEdicion && usuarioActualEnEdicion.id === userId) {
         userDetail.style.display = 'none';
@@ -509,29 +533,27 @@ async function eliminarUsuario(userId, userIndex) {
         datosOriginales = null;
         console.log('Detalle de usuario cerrado (usuario eliminado)');
       }
-      
+
       setTimeout(() => {
         deleteStatus.style.display = 'none';
       }, 2000);
-      
     } else {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
-
   } catch (error) {
     console.error('❌ Error al eliminar usuario:', error);
-    
+
     dotDelete.classList.add('error');
     textDelete.textContent = 'Error al eliminar usuario';
     errorDelete.style.display = 'block';
     errorDelete.textContent = `⚠ ${error.message}`;
-    
+
     setTimeout(() => {
       deleteStatus.style.display = 'none';
       errorDelete.style.display = 'none';
     }, 3000);
   }
-  
+
   console.log('════════════════════════════════════════');
 }
 
@@ -539,11 +561,11 @@ async function eliminarUsuario(userId, userIndex) {
 function actualizarNumerosTabla() {
   Array.from(tbody.children).forEach((tr, index) => {
     tr.children[0].textContent = index + 1;
-    
+
     // Actualizar índices en los eventos
     const nameLink = tr.querySelector('.name-cell a');
     const deleteBtn = tr.querySelector('.btn-delete');
-    
+
     if (nameLink) nameLink.dataset.userIndex = index;
     if (deleteBtn) deleteBtn.dataset.userIndex = index;
   });
